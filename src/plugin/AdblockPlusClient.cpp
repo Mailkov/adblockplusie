@@ -215,34 +215,37 @@ bool CAdblockPlusClient::ShouldBlock(const std::wstring& src, AdblockPlus::Filte
 {
   bool isBlocked = false;
   bool isCached = false;
-  m_criticalSectionCache.Lock();
+  if (CPluginSettings::GetInstance()->IsPluginEnabled())
   {
-    auto it = m_cacheBlockedSources.find(src);
-
-    isCached = it != m_cacheBlockedSources.end();
-    if (isCached)
+    m_criticalSectionCache.Lock();
     {
-      isBlocked = it->second;
-    }
-  }
-  m_criticalSectionCache.Unlock();
+      auto it = m_cacheBlockedSources.find(src);
 
-  if (!isCached)
-  {
-    m_criticalSectionFilter.Lock();
-    {
-      isBlocked = m_filter->ShouldBlock(src, contentType, domain, addDebug);
+      isCached = it != m_cacheBlockedSources.end();
+      if (isCached)
+      {
+        isBlocked = it->second;
+      }
     }
-    m_criticalSectionFilter.Unlock();
+    m_criticalSectionCache.Unlock();
+
+    if (!isCached)
+    {
+      m_criticalSectionFilter.Lock();
+      {
+        isBlocked = m_filter->ShouldBlock(src, contentType, domain, addDebug);
+      }
+      m_criticalSectionFilter.Unlock();
 
     // Cache result, if content type is defined
-    if (contentType != AdblockPlus::FilterEngine::ContentType::CONTENT_TYPE_OTHER)
-    {
-      m_criticalSectionCache.Lock();
+      if (contentType != AdblockPlus::FilterEngine::ContentType::CONTENT_TYPE_OTHER)
       {
-        m_cacheBlockedSources[src] = isBlocked;
+        m_criticalSectionCache.Lock();
+        {
+          m_cacheBlockedSources[src] = isBlocked;
+        }
+        m_criticalSectionCache.Unlock();
       }
-      m_criticalSectionCache.Unlock();
     }
   }
   return isBlocked;
