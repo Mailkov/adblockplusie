@@ -1096,6 +1096,7 @@ void CPluginClass::DisplayPluginMenu(HMENU hMenu, int nToolbarCmdID, POINT pt, U
         }
       }
       s_criticalSectionLocal.Unlock();
+	  GetBrowser()->Refresh();
     }
     break;
   case ID_MENU_SETTINGS:
