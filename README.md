@@ -38,7 +38,7 @@ directories to the same directory _AdblockPlus.dll_ is in.
 Building the installer
 ----------------------
 
-You need [WiX 3.8](http://wixtoolset.org) (make sure `%WIX%\bin` is in `%PATH%`)
+You need [WiX 3.8](http://wixtoolset.org) 
 and [InnoSetup 5.5](http://www.jrsoftware.org/isinfo.php).
 
 * Execute `installer\createsolutions.bat` to generate the installer project

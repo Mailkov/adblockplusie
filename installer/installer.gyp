@@ -21,7 +21,8 @@
 	  [ 'target_arch=="ia32"', { 'candle_arch': 'x86' } ],
 	  [ 'target_arch=="x64"', { 'candle_arch': 'x64' } ]
 	],
-
+     'candle_path': ['%WIX%/bin/candle'],
+     'light_path': ['%WIX%/bin/light'],
     #
     # Build directories, both common and architecture-specific
     # 
@@ -149,7 +150,7 @@
         '<(common_object_file)'
       ], 
       'action':
-        [ 'candle -nologo -dNoDefault ', '-out', '<@(_outputs)', '<@(_inputs)' ]
+        [ '<(candle_path) -nologo -dNoDefault ', '-out', '<@(_outputs)', '<@(_inputs)' ]
     } ]    
   },
 
@@ -174,7 +175,7 @@
         '<(installer_object_file)'
       ],
       'action':
-        [ 'candle -nologo -arch <(candle_arch) -dNoDefault -dVersion=<(version) -dConfiguration=Release', '-out', '<@(_outputs)', '<(installer_source_top_file)' ]
+        [ '<(candle_path) -nologo -arch <(candle_arch) -dNoDefault -dVersion=<(version) -dConfiguration=Release', '-out', '<@(_outputs)', '<(installer_source_top_file)' ]
     } ]
   },
 
@@ -199,7 +200,7 @@
         '<(installer_object_file_no_transforms)'
       ],
       'action':
-        [ 'candle -nologo -arch <(candle_arch) -dNoDefault -dVersion=<(version) -dConfiguration=Release -dNoTransforms', '-out', '<@(_outputs)', '<(installer_source_top_file)' ]
+        [ '<(candle_path) -nologo -arch <(candle_arch) -dNoDefault -dVersion=<(version) -dConfiguration=Release -dNoTransforms', '-out', '<@(_outputs)', '<(installer_source_top_file)' ]
     } ]   
   },
 
@@ -805,7 +806,7 @@
         '<(build_dir_arch)/test-installer-lib.wixobj'
       ],
       'action':
-        [ 'candle -nologo -arch <(candle_arch) -dNoDefault ', '-out', '<@(_outputs)', '<@(_inputs)' ]
+        [ '<(candle_path) -nologo -arch <(candle_arch) -dNoDefault ', '-out', '<@(_outputs)', '<@(_inputs)' ]
     } ]
   },
 
@@ -856,7 +857,7 @@
 	    # ICE71: The Media table has no entries
 		# Suppress ICE71 because the test MSI does not install any files.
 	    [
-			'light -notidy -nologo -ext WixUIExtension -sice:ICE71',
+			'<(light_path) -notidy -nologo -ext WixUIExtension -sice:ICE71',
 			'<@(_linked_inputs)',
 			'-out', '<(build_dir_arch)/test-installer-lib.msi',
 			'-loc', '<@(_localization_input)'
