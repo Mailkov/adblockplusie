@@ -242,6 +242,9 @@ bool CAdblockPlusClient::ShouldBlock(const std::wstring& src, AdblockPlus::Filte
       m_criticalSectionCache.Unlock();
     }
   }
+  if (isBlocked==true){
+	  isBlocked=true;
+  }
   return isBlocked;
 }
 
