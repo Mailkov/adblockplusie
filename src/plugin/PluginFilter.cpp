@@ -33,6 +33,46 @@ static CriticalSection s_criticalSectionFilterMap;
 
 namespace
 {
+  CString TransformUnescapeCSTring(CString unescape)
+  {
+    bool delbackslash = true;
+    bool notadd=false;
+    wchar_t verback('\\');
+    wchar_t verdoub('"');
+    CString escaped = "";
+    if (!unescape.IsEmpty())
+    {
+      for (int i = 0 ; i < unescape.GetLength(); i++)
+      {
+        if (unescape.GetAt(i) == verback ) 
+        {
+          if (delbackslash == false)
+          {
+            delbackslash = true;
+          }
+          else
+          {
+            delbackslash = false;
+            notadd = true;
+          }
+        }
+        else if (unescape.GetAt(i) == verdoub)
+        {
+          delbackslash = true;
+        }
+        if (!notadd) 
+        {
+          escaped.AppendChar(unescape.GetAt(i));
+        }
+        notadd = false;
+      }
+    }
+    return escaped;
+  }
+}
+
+namespace
+{
   struct GetHtmlElementAttributeResult
   {
     GetHtmlElementAttributeResult() : isAttributeFound(false)
@@ -406,7 +446,7 @@ bool CFilterElementHide::IsMatchFilterElementHide(IHTMLElement* pEl) const
       }
       else if (attrIt->m_pos == CFilterElementHideAttrPos::ANYWHERE)
       {
-        if (value.Find(attrIt->m_value) < 0)
+        if (value.Find(attrIt->m_value) < 0 && value.Find(TransformUnescapeCSTring(attrIt->m_value)) < 0)
           return false;
       }
       else if (attrIt->m_value.IsEmpty())
