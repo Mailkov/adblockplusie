@@ -1159,32 +1159,27 @@ bool CPluginClass::SetMenuBar(HMENU hMenu, const std::wstring& url)
 
   CPluginClient* client = CPluginClient::GetInstance();
   CPluginSettings* settings = CPluginSettings::GetInstance();
+  if (std::wstring(url,0,4)==L"http")
   {
     ctext = dictionary->Lookup("menu", "menu-disable-on-site");
     // Is domain in white list?
     ReplaceString(ctext, L"?1?", client->GetHostFromUrl(url));
-	long ismfsenabled;
-	if (std::wstring(url,0,4)==L"http")
-	{
-      ismfsenabled = MFS_ENABLED;
-	}
-	else
-	{
-      ismfsenabled = MFS_DISABLED;
-	}
     if (client->IsWhitelistedUrl(GetTab()->GetDocumentUrl()))
     {
-      fmii.fState = MFS_CHECKED | ismfsenabled;
+      fmii.fState = MFS_CHECKED | MFS_ENABLED;
     }
     else
     {
-      fmii.fState = MFS_UNCHECKED | ismfsenabled;
+      fmii.fState = MFS_UNCHECKED | MFS_ENABLED;
     }
     fmii.fMask = MIIM_STRING | MIIM_STATE;
     fmii.dwTypeData = const_cast<LPWSTR>(ctext.c_str());
     fmii.cch = static_cast<UINT>(ctext.size());
     ::SetMenuItemInfoW(hMenu, ID_MENU_DISABLE_ON_SITE, FALSE, &fmii);
-	
+  }
+  else
+  {
+    ::DeleteMenu(hMenu,ID_MENU_DISABLE_ON_SITE,MF_BYCOMMAND);
   }
 
   // Plugin update
