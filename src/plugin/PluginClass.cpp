@@ -1175,7 +1175,7 @@ bool CPluginClass::SetMenuBar(HMENU hMenu, const std::wstring& url)
     fmii.fMask = MIIM_STRING | MIIM_STATE;
     fmii.dwTypeData = const_cast<LPWSTR>(ctext.c_str());
     fmii.cch = static_cast<UINT>(ctext.size());
-    
+
     ::SetMenuItemInfoW(hMenu, ID_MENU_DISABLE_ON_SITE, FALSE, &fmii);
   }
   else
