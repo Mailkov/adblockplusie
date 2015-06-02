@@ -15,5 +15,29 @@
  * along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Plugin.h"
-#include "../shared/Version.h"
+#include <gtest/gtest.h>
+#include "Registry.h"
+
+using namespace AdblockPlus;
+
+TEST(RegistryTest, Simple00)
+{
+  ASSERT_NO_THROW({ auto r = RegistryKey(HKEY_CLASSES_ROOT, L"CLSID"); });
+}
+
+TEST(RegistryTest, Simple01)
+{
+  ASSERT_ANY_THROW({ auto r = RegistryKey(HKEY_CLASSES_ROOT, L"IREALLYHOPENOBODYHASREGISTEREDTHISKEY"); });
+}
+
+TEST(RegistryTest, ConstructorIllegalArgument00)
+{
+  // Empty string arguments are illegal by fiat; there's an explicit check
+  ASSERT_ANY_THROW({ auto r = RegistryKey(HKEY_CLASSES_ROOT, L""); });
+}
+
+TEST(RegistryTest, ValueNotFound00)
+{
+  auto r = RegistryKey(HKEY_CLASSES_ROOT, L"CLSID");
+  ASSERT_ANY_THROW({ r.value_wstring(L"nonexistent"); });
+}

@@ -16,18 +16,14 @@
  */
 
 #include "PluginStdAfx.h"
-
 #include "PluginWbPassThrough.h"
-#include "PluginClient.h"
-#include "PluginClientFactory.h"
-#include "PluginFilter.h"
+#include "AdblockPlusClient.h"
 #include "PluginSettings.h"
 #include "PluginClass.h"
-#include "PluginSystem.h"
+#include "PluginUtil.h"
 #include <WinInet.h>
-#include "wtypes.h"
 #include "../shared/Utils.h"
-#include "../shared/IE_version.h"
+#include "IeVersion.h"
 
 namespace
 {

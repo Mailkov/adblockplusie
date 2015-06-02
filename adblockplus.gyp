@@ -1,5 +1,8 @@
 {
-  'includes': ['defaults.gypi'],
+  'includes': [
+    'defaults.gypi',
+    'common/common.gypi',
+  ],
 
   'variables': {
     'build_type%': 'devbuild',
@@ -33,18 +36,23 @@
   'targets': [{
     'target_name': 'shared',
     'type': 'static_library',
+    'dependencies': [
+      'common',
+    ],
     'sources': [
       'src/shared/AutoHandle.cpp',
+      'src/shared/AutoHandle.h',
       'src/shared/Communication.cpp',
+      'src/shared/Communication.h',
+      'src/shared/CriticalSection.h',
       'src/shared/Dictionary.cpp',
+      'src/shared/Dictionary.h',
       'src/shared/Utils.cpp',
-      'src/shared/Registry.h',
-      'src/shared/Registry.cpp',
-      'src/shared/IE_version.h',
-      'src/shared/IE_version.cpp',
+      'src/shared/Utils.h',
+      'src/shared/Version.h',
       ]
   },
-  
+
   {
     'target_name': 'AdblockPlusEngine',
     'type': 'executable',
@@ -93,7 +101,6 @@
       'src/plugin/AdblockPlusGuids.h',
       'src/plugin/ATL_Deprecate.cpp',
       'src/plugin/ATL_Deprecate.h',
-      'src/plugin/BuildVariant.h',
       'src/plugin/Config.h',
       'src/plugin/Console.h',
       'src/plugin/NotificationMessage.cpp',
@@ -102,7 +109,6 @@
       'src/plugin/Plugin.h',
       'src/plugin/PluginClass.cpp',
       'src/plugin/PluginClass.h',
-      'src/plugin/PluginClient.h',
       'src/plugin/PluginClientBase.cpp',
       'src/plugin/PluginClientBase.h',
       'src/plugin/PluginClientFactory.cpp',
@@ -204,7 +210,6 @@
     'sources': [
       'test/CommunicationTest.cpp',
       'test/DictionaryTest.cpp',
-      'test/RegistryTest.cpp',
       'test/UtilTest.cpp',
       'test/UtilGetQueryStringTest.cpp',
       'test/UtilGetSchemeAndHierarchicalPartTest.cpp',
@@ -215,7 +220,7 @@
     },
     'msvs_settings': {
       'VCLinkerTool': {
-        'SubSystem': '1',   # Console
+        'SubSystem': '1', # Console
         'EntryPointSymbol': 'mainCRTStartup',
       },
     },
@@ -266,7 +271,7 @@
     },
     'msvs_settings': {
       'VCLinkerTool': {
-        'SubSystem': '1',   # Console
+        'SubSystem': '1', # Console
         'EntryPointSymbol': 'mainCRTStartup',
         'conditions': [[
           'target_arch=="ia32"', {

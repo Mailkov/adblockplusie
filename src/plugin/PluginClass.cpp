@@ -22,21 +22,22 @@
 #include "PluginSystem.h"
 #include "PluginFilter.h"
 #include "PluginMimeFilterClient.h"
-#include "PluginClient.h"
+#include "AdblockPlusClient.h"
+#include "PluginClientBase.h"
 #include "PluginClientFactory.h"
-#include "PluginMutex.h"
-#include "sddl.h"
 #include "PluginUtil.h"
-#include "PluginUserSettings.h"
 #include "../shared/Utils.h"
 #include "../shared/Dictionary.h"
-#include "../shared/IE_version.h"
+#include "IeVersion.h"
+#include "../shared/Version.h"
 #include <thread>
 #include <array>
 
 #ifdef DEBUG_HIDE_EL
 DWORD profileTime = 0;
 #endif
+
+extern CComModule _Module;
 
 typedef HANDLE (WINAPI *OPENTHEMEDATA)(HWND, LPCWSTR);
 typedef HRESULT (WINAPI *DRAWTHEMEBACKGROUND)(HANDLE, HDC, INT, INT, LPRECT, LPRECT);
@@ -485,11 +486,6 @@ void STDMETHODCALLTYPE CPluginClass::OnBeforeNavigate2(
     std::wstring url(urlVariant->bstrVal, SysStringLen(urlVariant->bstrVal));
     UnescapeUrl(url);
 
-    //Register a mime filter if it's not registered yet
-    if (s_mimeFilter == nullptr)
-    {
-      s_mimeFilter = CPluginClientFactory::GetMimeFilterClientInstance();
-    }
     // If webbrowser2 is equal to top level browser (as set in SetSite), we are
     // navigating new page
     CPluginClient* client = CPluginClient::GetInstance();
@@ -1136,7 +1132,6 @@ void CPluginClass::DisplayPluginMenu(HMENU hMenu, int nToolbarCmdID, POINT pt, U
       {
         settings->AddWhiteListedDomain(ToCString(client->GetHostFromUrl(urlString)));
       }
-      GetBrowser()->Refresh();
     }
   default:
     break;

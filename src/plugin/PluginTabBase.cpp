@@ -16,15 +16,12 @@
  */
 
 #include "PluginStdAfx.h"
-
-#include "PluginClient.h"
+#include "AdblockPlusClient.h"
+#include "PluginClientBase.h"
 #include "PluginSettings.h"
 #include "AdblockPlusDomTraverser.h"
-#include "PluginClass.h"
 #include "PluginTabBase.h"
-#include "PluginUtil.h"
-#include "../shared/IE_version.h"
-#include <dispex.h>
+#include "IeVersion.h"
 #include <Mshtmhst.h>
 
 CPluginTabBase::CPluginTabBase(CPluginClass* plugin)
