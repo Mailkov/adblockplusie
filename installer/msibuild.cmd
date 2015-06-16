@@ -41,7 +41,7 @@ exit /b 1
 goto End
 :Light
 echo on
-%WIX%/bin/light -notidy -nologo -ext WixUIExtension -sval %CULTURES% -loc %LOCALE_FILE% -out %MSI_LOCALE% %WIXOBJ%
+"%WIX%/bin/light" -notidy -nologo -ext WixUIExtension -sval %CULTURES% -loc %LOCALE_FILE% -out %MSI_LOCALE% %WIXOBJ%
 if errorlevel 1 GOTO :Error
 @echo off
 if "%FLAG%"=="additional" goto Additional
