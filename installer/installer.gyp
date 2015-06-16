@@ -21,8 +21,9 @@
 	  [ 'target_arch=="ia32"', { 'candle_arch': 'x86' } ],
 	  [ 'target_arch=="x64"', { 'candle_arch': 'x64' } ]
 	],
-     'candle_path': ['%WIX%/bin/candle'],
-     'light_path': ['%WIX%/bin/light'],
+     'candle_path': [ '%WIX%/bin/candle' ],
+     'light_path': [ '%WIX%/bin/light' ],
+
     #
     # Build directories, both common and architecture-specific
     # 
