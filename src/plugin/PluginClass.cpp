@@ -1159,7 +1159,7 @@ bool CPluginClass::SetMenuBar(HMENU hMenu, const std::wstring& url)
 
   CPluginClient* client = CPluginClient::GetInstance();
   CPluginSettings* settings = CPluginSettings::GetInstance();
-  if (std::wstring(url,0,4) == L"http")
+  if (std::wstring(url, 0, 4) == L"http")
   {
     ctext = dictionary->Lookup("menu", "menu-disable-on-site");
     // Is domain in white list?
