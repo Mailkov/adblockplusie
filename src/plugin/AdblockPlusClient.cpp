@@ -215,7 +215,6 @@ bool CAdblockPlusClient::ShouldBlock(const std::wstring& src, AdblockPlus::Filte
 {
   bool isBlocked = false;
   bool isCached = false;
-
   m_criticalSectionCache.Lock();
   {
     auto it = m_cacheBlockedSources.find(src);
