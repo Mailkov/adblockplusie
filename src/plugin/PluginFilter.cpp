@@ -711,7 +711,7 @@ bool CPluginFilter::ShouldBlock(const std::wstring& src, AdblockPlus::FilterEngi
   CPluginSettings* settings = CPluginSettings::GetInstance();
 
   CPluginClient* client = CPluginClient::GetInstance();
-  bool result = client->Matches(srcTrimmed, contentType, domain);
+  bool result = client->IsWhitelistedUrl(srcTrimmed)?false:client->Matches(srcTrimmed, contentType, domain);
 
 #ifdef ENABLE_DEBUG_RESULT
   if (addDebug)
