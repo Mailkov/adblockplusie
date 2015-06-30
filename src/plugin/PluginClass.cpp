@@ -1180,7 +1180,7 @@ bool CPluginClass::SetMenuBar(HMENU hMenu, const std::wstring& url)
   }
   else
   {
-    ::DeleteMenu(hMenu,ID_MENU_DISABLE_ON_SITE,MF_BYCOMMAND);
+    ::DeleteMenu(hMenu, ID_MENU_DISABLE_ON_SITE, MF_BYCOMMAND);
   }
 
   // Plugin update
